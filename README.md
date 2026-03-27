@@ -1,17 +1,18 @@
 # resume
 
-在新会话中恢复上一次的工作上下文，无缝继续。
+Restore previous session context in a new Claude Code conversation. Pick up where you left off.
 
-> **Part of the compact-resume cycle** — pairs with [`/brace-compact`](https://github.com/4over7/brace-compact) to give Claude Code seamless context recovery.
+在新的 Claude Code 会话中恢复上一次的工作上下文，无缝继续。
+
+> Pairs with [`/brace-compact`](https://github.com/4over7/brace-compact) for seamless context recovery.
 
 ## Problem
 
-以下场景都会导致 Claude Code 丢失上下文：
-- `/compact` 压缩对话
-- 退出会话（重启 Claude Code、加载新配置）
-- 会话超时、切换项目、隔天继续
+Starting a new Claude Code session means the AI has no memory of your previous work. You'd have to re-explain everything — what you were doing, what decisions were made, what's left to do.
 
-`/resume` 从 `/brace-compact` 保存的检查点文件中恢复上下文，让 AI 无需你重新解释就能继续工作。
+`/resume` reads checkpoint files saved by `/brace-compact` and restores the AI's full understanding of your project state.
+
+新开 Claude Code 会话时，AI 对之前的工作一无所知。`/resume` 从 `/brace-compact` 保存的检查点文件中恢复上下文，让 AI 无需你重新解释就能继续工作。
 
 ## Install
 
@@ -19,17 +20,17 @@
 claude install github:4over7/resume
 ```
 
-> Also install the companion skill: `claude install github:4over7/brace-compact`
+> Also install the companion: `claude install github:4over7/brace-compact`
 
 ## Usage
 
-新会话开始后：
+At the start of a new session:
 
 ```
 /resume
 ```
 
-Or focus on a specific area:
+Focus on a specific area:
 
 ```
 /resume focus on database migration
@@ -54,7 +55,7 @@ Or just say "resume" or "继续" in natural language.
 claude → /resume → Pick up where you left off
 ```
 
-## What it restores
+## What it restores | 恢复内容
 
 1. **Checkpoint** (`.claude/resume.md`) — task state, critical context, next steps
 2. **Memory** (`MEMORY.md`) — project knowledge, decisions, debugging conclusions
@@ -64,9 +65,7 @@ claude → /resume → Pick up where you left off
 
 ## Companion: [brace-compact](https://github.com/4over7/brace-compact)
 
-`resume` restores context. [`brace-compact`](https://github.com/4over7/brace-compact) saves it.
-
-Install both to complete the cycle:
+`resume` restores. [`brace-compact`](https://github.com/4over7/brace-compact) saves. Install both:
 
 ```bash
 claude install github:4over7/brace-compact
