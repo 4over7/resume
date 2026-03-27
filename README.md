@@ -1,12 +1,17 @@
 # resume
 
-A Claude Code skill that restores conversation context after `/compact`.
+在新会话中恢复上一次的工作上下文，无缝继续。
 
-> **Part of the compact-resume cycle** — pairs with [`/brace-compact`](https://github.com/4over7/brace-compact) to give Claude Code seamless context recovery across compactions.
+> **Part of the compact-resume cycle** — pairs with [`/brace-compact`](https://github.com/4over7/brace-compact) to give Claude Code seamless context recovery.
 
 ## Problem
 
-After `/compact`, Claude Code loses detailed conversation context. The `/resume` skill reads checkpoint files saved by [`/brace-compact`](https://github.com/4over7/brace-compact) and restores the AI's understanding of what you were working on.
+以下场景都会导致 Claude Code 丢失上下文：
+- `/compact` 压缩对话
+- 退出会话（重启 Claude Code、加载新配置）
+- 会话超时、切换项目、隔天继续
+
+`/resume` 从 `/brace-compact` 保存的检查点文件中恢复上下文，让 AI 无需你重新解释就能继续工作。
 
 ## Install
 
@@ -18,7 +23,7 @@ claude install github:4over7/resume
 
 ## Usage
 
-After `/compact`:
+新会话开始后：
 
 ```
 /resume
@@ -32,14 +37,21 @@ Or focus on a specific area:
 
 Or just say "resume" or "继续" in natural language.
 
-## Complete workflow
+## Workflows
 
+**After compact:**
 ```
-Working...
-  → /brace-compact          # save context (companion skill)
-  → /compact                 # compress conversation
-  → /resume                  # restore context (this skill)
-  → Continue working         # seamless!
+/brace-compact → /compact → /resume → Continue working
+```
+
+**After exit/restart:**
+```
+/brace-compact → exit → claude → /resume → Continue working
+```
+
+**Next morning:**
+```
+claude → /resume → Pick up where you left off
 ```
 
 ## What it restores
@@ -47,7 +59,8 @@ Working...
 1. **Checkpoint** (`.claude/resume.md`) — task state, critical context, next steps
 2. **Memory** (`MEMORY.md`) — project knowledge, decisions, debugging conclusions
 3. **Git history** — recent changes for additional context
-4. **Environment** — verifies running processes mentioned in checkpoint
+4. **Active plans** (`.claude/plans/`) — implementation progress
+5. **Environment** — verifies running processes mentioned in checkpoint
 
 ## Companion: [brace-compact](https://github.com/4over7/brace-compact)
 
@@ -60,4 +73,4 @@ claude install github:4over7/brace-compact
 claude install github:4over7/resume
 ```
 
-Before `/compact`, run `/brace-compact` to save your session state.
+Before ending a session, run `/brace-compact` to save your work state.
